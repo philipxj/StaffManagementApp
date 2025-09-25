@@ -1,4 +1,4 @@
-package com.example.staffmanagement.data.model.dto
+package com.example.staffmanagementapp.data.model.dto
 
 /**
  * Top-level Data Transfer Object (DTO) for receiving the staff list API response.

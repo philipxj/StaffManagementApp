@@ -1,4 +1,4 @@
-package com.example.staffmanagement.data.model.domain
+package com.example.staffmanagementapp.data.model.domain
 
 /**
  * Domain model representing a user authentication token.

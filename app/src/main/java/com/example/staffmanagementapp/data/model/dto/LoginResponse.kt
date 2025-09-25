@@ -1,4 +1,4 @@
-package com.example.staffmanagement.data.model.dto
+package com.example.staffmanagementapp.data.model.dto
 
 /**
  * Data Transfer Object (DTO) for receiving successful login API responses.

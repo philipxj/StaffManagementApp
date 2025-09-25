@@ -1,4 +1,4 @@
-package com.example.staffmanagement.data.model.domain
+package com.example.staffmanagementapp.data.model.domain
 
 /**
  * Represents a single staff member in the domain model.
