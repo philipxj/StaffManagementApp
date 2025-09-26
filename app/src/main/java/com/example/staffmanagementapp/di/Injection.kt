@@ -5,14 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.staffmanagementapp.data.api.AuthApiService
 import com.example.staffmanagementapp.data.api.DefaultAuthApiService
 import com.example.staffmanagementapp.data.api.DefaultStaffApiService
-import com.example.staffmanagementapp.data.api.FakeAuthApiService
-import com.example.staffmanagementapp.data.api.FakeStaffApiService
 import com.example.staffmanagementapp.data.api.StaffApiService
 import com.example.staffmanagementapp.data.repository.AuthRepository
 import com.example.staffmanagementapp.data.repository.AuthRepositoryImpl
 import com.example.staffmanagementapp.data.repository.StaffRepository
 import com.example.staffmanagementapp.data.repository.StaffRepositoryImpl
 import com.example.staffmanagementapp.ui.login.LoginViewModel
+import com.example.staffmanagementapp.ui.stafflist.StaffListViewModel
 
 /**
  * The central hub for manual dependency injection.
@@ -21,25 +20,14 @@ import com.example.staffmanagementapp.ui.login.LoginViewModel
  */
 object Injection {
 
-    // Switch: Set to true to use fake data for Demo, set to false to connect to the real API
-    private const val USE_FAKE_API = true
-
     // --- API Service Providers ---
 
     private fun provideAuthApiService(): AuthApiService {
-        return if (USE_FAKE_API) {
-            FakeAuthApiService()
-        } else {
-            DefaultAuthApiService()
-        }
+        return DefaultAuthApiService()
     }
 
     private fun provideStaffApiService(): StaffApiService {
-        return if (USE_FAKE_API) {
-            FakeStaffApiService()
-        } else {
-            DefaultStaffApiService()
-        }
+        return DefaultStaffApiService()
     }
 
     // --- Repository Providers ---
@@ -65,10 +53,9 @@ object Injection {
                 modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                     LoginViewModel(provideAuthRepository()) as T
                 }
-                // TODO: Add logic here when creating StaffListViewModel
-                // modelClass.isAssignableFrom(StaffListViewModel::class.java) -> {
-                //     StaffListViewModel(provideStaffRepository()) as T
-                // }
+                 modelClass.isAssignableFrom(StaffListViewModel::class.java) -> {
+                     StaffListViewModel(provideStaffRepository()) as T
+                 }
                 else -> {
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }
