@@ -7,6 +7,9 @@ import javax.net.ssl.HttpsURLConnection
 
 /**
  * An abstract base class that provides common functionality needed for API service implementations.
+ *
+ * @param httpClientProvider Provider for creating HTTP connections (default: DefaultHttpClientProvider)
+ * @param baseUrl Base URL for API endpoints (default: reqres.in API)
  */
 abstract class BaseApiService(
     private val httpClientProvider: HttpClientProvider = DefaultHttpClientProvider(),
@@ -16,13 +19,50 @@ abstract class BaseApiService(
     protected val POST = "POST"
     protected val GET = "GET"
 
+
+    /**
+     * Executes HTTP request and returns response body as String
+     * @param endpoint API endpoint
+     * @param method HTTP method (GET, POST, etc.)
+     * @param requestBody Optional request body for POST/PUT requests
+     * @return Response body as String
+     * @throws RuntimeException for HTTP errors or network issues
+     */
+    protected fun executeRequest(endpoint: String, method: String = GET, requestBody: String? = null): String {
+        val connection = createConnection(endpoint, method)
+
+        return try {
+            // Send request body for POST/PUT requests
+            if (requestBody != null && (method == POST || method == "PUT" || method == "PATCH")) {
+                connection.outputStream.use { outputStream ->
+                    outputStream.write(requestBody.toByteArray(Charsets.UTF_8))
+                    outputStream.flush()
+                }
+            }
+
+            val responseCode = connection.responseCode
+            val responseBody = readResponse(connection)
+
+            if (responseCode != 200) {
+                throw RuntimeException("HTTP $responseCode: ${connection.responseMessage}. Response: $responseBody")
+            }
+
+            responseBody
+
+        } catch (e: Exception) {
+            throw RuntimeException("Request failed: ${e.message}", e)
+        } finally {
+            connection.disconnect()
+        }
+    }
+
     /**
      * Creates and configures an HttpsURLConnection.
      * @param endpoint API endpoint
      * @param method HTTP method (GET, POST, etc.)
      * @return Configured HttpsURLConnection
      */
-    protected fun createConnection(endpoint: String, method: String = GET): HttpsURLConnection {
+    private fun createConnection(endpoint: String, method: String = GET): HttpsURLConnection {
         val url = URL("$baseUrl$endpoint")
         val connection = httpClientProvider.createConnection(url)
 
@@ -43,7 +83,7 @@ abstract class BaseApiService(
      * @param connection HttpsURLConnection instance.
      * @return String response from the server.
      */
-    protected fun readResponse(connection: HttpsURLConnection): String {
+    private fun readResponse(connection: HttpsURLConnection): String {
         // Determine whether to read the normal input stream or the error stream based on the response code
         val inputStream = if (connection.responseCode >= 400) {
             connection.errorStream
