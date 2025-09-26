@@ -4,7 +4,7 @@ import com.example.staffmanagementapp.data.api.AuthApiService
 import com.example.staffmanagementapp.data.model.dto.LoginRequest
 import com.example.staffmanagementapp.data.model.dto.LoginResponse
 import com.example.staffmanagementapp.util.Result
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
@@ -66,7 +66,7 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `login should return Success with UserToken when API call succeeds`() = runBlocking {
+    fun `login should return Success with UserToken when API call succeeds`() = runTest {
         // Arrange
         val email = "eve.holt@reqres.in"
         val password = "cityslicka"
@@ -90,7 +90,7 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `login should return Error when API service throws exception`() = runBlocking {
+    fun `login should return Error when API service throws exception`() = runTest {
         // Arrange
         val email = "invalid@email.com"
         val password = "wrongpassword"
