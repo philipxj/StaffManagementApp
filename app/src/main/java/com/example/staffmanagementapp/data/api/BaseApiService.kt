@@ -4,6 +4,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * An abstract base class that provides common functionality needed for API service implementations.
@@ -28,10 +30,10 @@ abstract class BaseApiService(
      * @return Response body as String
      * @throws RuntimeException for HTTP errors or network issues
      */
-    protected fun executeRequest(endpoint: String, method: String = GET, requestBody: String? = null): String {
+    protected suspend fun executeRequest(endpoint: String, method: String = GET, requestBody: String? = null): String = withContext(Dispatchers.IO) {
         val connection = createConnection(endpoint, method)
 
-        return try {
+        try {
             // Send request body for POST/PUT requests
             if (requestBody != null && (method == POST || method == "PUT" || method == "PATCH")) {
                 connection.outputStream.use { outputStream ->
@@ -69,6 +71,7 @@ abstract class BaseApiService(
         connection.requestMethod = method
         connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8")
         connection.setRequestProperty("Accept", "application/json")
+        connection.setRequestProperty("x-api-key", "reqres-free-v1")
         connection.connectTimeout = 15000
         connection.readTimeout = 15000
 
