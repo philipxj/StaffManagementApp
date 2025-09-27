@@ -19,15 +19,18 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="72dp"
             android:background="@android:color/white"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_arrow_back_black"
             app:title="Staff List"
             app:titleCentered="true"
-            app:titleTextColor="@android:color/black" />
+            app:titleTextColor="@android:color/black"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <View
             android:id="@+id/toolbar_divider"
