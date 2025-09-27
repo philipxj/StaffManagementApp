@@ -5,8 +5,8 @@ import com.example.staffmanagementapp.data.model.domain.StaffListPage
 import com.example.staffmanagementapp.util.Result
 
 /**
- * StaffRepository 的一個假實現，專門用於單元測試。
- * 它模擬了分頁加載數據和返回錯誤的行為。
+ * A fake implementation of StaffRepository for unit testing.
+ * It simulates paginated data loading and error behavior.
  */
 class FakeStaffRepository : StaffRepository {
 
@@ -14,7 +14,7 @@ class FakeStaffRepository : StaffRepository {
     private val fakeData = mutableMapOf<Int, StaffListPage>()
 
     init {
-        // 預先準備好第一頁和第二頁的假數據
+        // Prepare fake data for first and second pages
         fakeData[1] = StaffListPage(
             staff = listOf(
                 Staff(1, "george.bluth@reqres.in", "George Bluth", "https://reqres.in/img/faces/1-image.jpg"),
@@ -34,7 +34,7 @@ class FakeStaffRepository : StaffRepository {
     }
 
     /**
-     * 在測試中用來控制這個 Fake Repository 是否應該返回錯誤。
+     * Used in tests to control whether this Fake Repository should return errors.
      */
     fun setShouldReturnError(value: Boolean) {
         shouldReturnError = value
@@ -45,7 +45,7 @@ class FakeStaffRepository : StaffRepository {
             return Result.Error(Exception("Test Exception: Failed to fetch staff list"))
         }
 
-        // 模擬 API 行為：如果請求的頁數存在假數據，就返回數據；否則返回一個空的成功結果。
+        // Simulate API behavior: if the requested page has fake data, return it; otherwise return an empty success result.
         return fakeData[page]?.let {
             Result.Success(it)
         } ?: Result.Success(StaffListPage(staff = emptyList(), currentPage = page, totalPages = 2))
