@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,11 +42,18 @@ class StaffListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Setup toolbar back navigation click listener
+        binding.toolbar.setNavigationOnClickListener {
+            val action = StaffListFragmentDirections.actionStaffListFragmentToLoginFragment()
+            findNavController().navigate(action)
+        }
+
         setupRecyclerView()
         setupLoadMoreButton()
 
-        // Set the token passed from the login page
-        staffListViewModel.setLoginToken(args.loginToken)
+        // Set the token passed from the login page (or use default if accessed directly)
+        val loginToken = if (args.loginToken.isNotEmpty()) args.loginToken else "default-token"
+        staffListViewModel.setLoginToken(loginToken)
 
         observeUiState()
 
@@ -108,7 +116,9 @@ class StaffListFragment : Fragment() {
             val hasMorePages = !currentState.isLastPage
             val hasItems = currentState.staff.isNotEmpty()
 
-            binding.buttonLoadMore.visibility = if (isNearBottom && hasMorePages && hasItems) {
+            // Show button if there are more pages and items, regardless of scroll position
+            // This ensures button shows immediately after fresh load if there are more pages
+            binding.buttonLoadMore.visibility = if (hasMorePages && hasItems) {
                 android.view.View.VISIBLE
             } else {
                 android.view.View.GONE

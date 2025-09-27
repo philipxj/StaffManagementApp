@@ -31,13 +31,24 @@ class StaffListViewModel(
     }
 
     /**
+     * Resets the ViewModel state for fresh start.
+     */
+    fun resetState() {
+        currentPage = 0
+        totalPages = 1
+    }
+
+    /**
      * Loads the first page of staff data.
      */
     fun loadInitialStaffList() {
-        // If it's already loading or data is already present, don't reload
-        if (_uiState.value.isLoadingInitial || _uiState.value.staff.isNotEmpty()) {
+        // If it's already loading, don't reload
+        if (_uiState.value.isLoadingInitial) {
             return
         }
+
+        // Reset state and load fresh data
+        resetState()
         fetchStaffList(page = 1, isInitialLoad = true)
     }
 
