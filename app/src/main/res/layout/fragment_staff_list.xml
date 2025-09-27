@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         tools:context=".ui.stafflist.StaffListFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -23,10 +24,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIcon="@drawable/ic_arrow_back_black"
             app:title="Staff List"
             app:titleCentered="true"
             app:titleTextColor="@android:color/black" />
+
+        <View
+            android:id="@+id/toolbar_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <TextView
             android:id="@+id/textView_token_label"
@@ -36,8 +46,9 @@
             android:layout_marginTop="16dp"
             android:text="Login Token:"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_divider" />
 
         <TextView
             android:id="@+id/textView_token"
@@ -46,6 +57,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:text="@{uiState.loginToken}"
+            android:textColor="@android:color/black"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView_token_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView_token_label"
@@ -74,6 +86,7 @@
             android:layout_marginBottom="8dp"
             android:enabled="@{!uiState.isLoadingMore}"
             android:text="Load More"
+            android:textColor="@color/white"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/progressBar_more"
             app:layout_constraintEnd_toEndOf="parent"

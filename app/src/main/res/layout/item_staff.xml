@@ -38,6 +38,7 @@
                 android:text="@{staff.fullName}"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:textColor="@android:color/black"
                 tools:text="George Bluth" />
 
             <TextView
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{staff.email}"
                 android:textSize="14sp"
+                android:textColor="#666666"
                 tools:text="george.bluth@reqres.in" />
 
         </LinearLayout>
