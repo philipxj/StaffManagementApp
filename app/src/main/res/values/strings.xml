@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StaffManagementApp</string>
+    <string name="staff_avatar">Staff member avatar</string>
 </resources>

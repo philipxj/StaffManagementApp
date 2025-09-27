@@ -18,8 +18,13 @@
 
     <fragment
         android:id="@+id/staffListFragment"
-        android:name="com.example.staffmanagementapp.ui.staff.StaffListFragment"
+        android:name="com.example.staffmanagementapp.ui.stafflist.StaffListFragment"
         android:label="Staff List"
-        tools:layout="@layout/fragment_staff_list" />
+        tools:layout="@layout/fragment_staff_list">
+
+        <argument
+            android:name="loginToken"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
