@@ -1,5 +1,5 @@
 # Staff Management App - Android
-
+<img width="300" height="650" src="https://github.com/philipxj/StaffManagementApp/blob/master/Screenshot_login.jpg?raw=true">        <img width="300" height="650" src="https://github.com/philipxj/StaffManagementApp/blob/master/Screenshot_staff_list.jpg?raw=true">
 
 ## Core Features
 * User Login: A secure login screen with input validation and asynchronous API handling.
@@ -36,8 +36,7 @@ com.example.staffmanagementapp/
 │   │   ├── BaseApiService.kt
 │   │   ├── DefaultAuthApiService.kt
 │   │   ├── DefaultStaffApiService.kt
-│   │   ├── FakeAuthApiService.kt
-│   │   ├── FakeStaffApiService.kt
+│   │   ├── HttpClientProvider.kt
 │   │   └── StaffApiService.kt
 │   │
 │   ├── model               # Data models
