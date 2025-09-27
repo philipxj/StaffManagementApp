@@ -50,8 +50,11 @@ class LoginFragment : Fragment() {
         loginViewModel.loginState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoginState.Success -> {
-                    // Login successful, navigate to the staff list screen
-                    findNavController().navigate(R.id.action_loginFragment_to_staffListFragment)
+                    // Login successful, navigate to the staff list screen with token
+                    val action = LoginFragmentDirections.actionLoginFragmentToStaffListFragment(
+                        loginToken = state.userToken.value
+                    )
+                    findNavController().navigate(action)
                 }
                 is LoginState.Error -> {
                     // Login failed, show an error dialog
