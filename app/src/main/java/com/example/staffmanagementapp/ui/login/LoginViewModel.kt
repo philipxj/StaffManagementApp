@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.staffmanagementapp.data.repository.AuthRepository
 import com.example.staffmanagementapp.util.Result
 import kotlinx.coroutines.launch
-import android.util.Patterns
+import java.util.regex.Pattern
 
 /**
  * Handles business logic and state management for the login screen.
@@ -81,6 +81,7 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
      * @return true if email is valid, false otherwise
      */
     private fun isValidEmail(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        val emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        return Pattern.compile(emailPattern).matcher(email).matches()
     }
 }
