@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.staffmanagementapp.data.repository.AuthRepository
 import com.example.staffmanagementapp.util.Result
 import kotlinx.coroutines.launch
+import android.util.Patterns
 
 /**
  * Handles business logic and state management for the login screen.
@@ -34,9 +35,17 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
             _loginState.value = LoginState.Error("Email and password cannot be empty")
             return
         }
+
+        // Validate email format
+        if (!isValidEmail(currentEmail)) {
+            _loginState.value = LoginState.Error("Please enter a valid email address")
+            return
+        }
+
         // Validate password format: 6-10 alphanumeric characters
         if (!currentPassword.matches(Regex("^[a-zA-Z0-9]{6,10}$"))) {
-            _loginState.value = LoginState.Error("Incorrect password format: only letters and numbers, length 6-10")
+            _loginState.value =
+                LoginState.Error("Incorrect password format: only letters and numbers, length 6-10")
             return
         }
 
@@ -46,10 +55,14 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
             when (val result = authRepository.login(currentEmail, currentPassword)) {
                 is Result.Success -> {
-                    _loginState.value = LoginState.Success(result.data) // Assuming result.data is the user or token
+                    _loginState.value =
+                        LoginState.Success(result.data) // Assuming result.data is the user or token
                 }
+
                 is Result.Error -> {
-                    _loginState.value = LoginState.Error(result.exception.message ?: "Login failed, please try again later")
+                    _loginState.value = LoginState.Error(
+                        result.exception.message ?: "Login failed, please try again later"
+                    )
                 }
             }
         }
@@ -60,5 +73,14 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
      */
     fun onStateHandled() {
         _loginState.value = LoginState.Initial
+    }
+
+    /**
+     * Validates email format using Android's built-in email pattern matcher.
+     * @param email The email string to validate
+     * @return true if email is valid, false otherwise
+     */
+    private fun isValidEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }
